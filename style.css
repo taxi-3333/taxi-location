@@ -1,48 +1,43 @@
+/* 全体のスタイル */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh;
+    height: 100vh;
     margin: 0;
 }
 
+/* コンテナのスタイル（2倍サイズ） */
 .container {
     background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
+    padding: 40px; /* 2倍 */
+    border-radius: 20px; /* 2倍 */
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1); /* 影も2倍 */
+    width: 800px; /* 2倍 */
     text-align: left;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-start; /* 出発・到着は左揃えのまま */
 }
 
+/* 出発地点と到着地点のテキストスタイル */
 p {
-    text-align: left;
-    margin-left: 20px;
-    font-size: 18px;
+    font-size: 36px; /* 2倍 */
+    margin: 16px 0; /* 2倍 */
 }
 
-.buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-    width: 100%;
-}
-
+/* ボタンのスタイル（2倍サイズ） */
 button {
-    font-size: 18px;
-    padding: 10px 20px;
+    font-size: 36px; /* 2倍 */
+    padding: 20px 40px; /* 2倍 */
     background-color: #007BFF;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px; /* 2倍 */
     cursor: pointer;
-    flex: 1;
+    margin-right: 20px; /* ボタンの間隔も2倍 */
 }
 
 button:hover {
