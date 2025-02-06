@@ -2,12 +2,25 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     padding: 50px 20px; /* 上部の余白を増やす */
+    display: flex;
+    justify-content: center;  /* 中央配置 */
+    align-items: center;
+    height: 100vh;  /* 画面いっぱいに広げる */
+}
+
+.container {
+    text-align: center;  /* 全体を中央揃え */
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;  /* コンテンツの幅を固定 */
 }
 
 p {
-    text-align: left;  /* 左揃えを強制 */
-    margin-left: 20px; /* 左に余白を確保 */
-    font-size: 18px;   /* 読みやすく調整 */
+    text-align: left;  /* 出発・到着のテキストを左揃え */
+    margin: 10px 0;
+    font-size: 18px;
 }
 
 button {
@@ -18,7 +31,7 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 20px;  /* ボタン上部に余白 */
+    margin-top: 20px;
 }
 
 button:hover {
