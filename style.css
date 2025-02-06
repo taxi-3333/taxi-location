@@ -1,8 +1,13 @@
 body {
     font-family: Arial, sans-serif;
-    text-align: left; /* 左揃え */
     background-color: #f4f4f4;
-    padding: 50px 20px; /* 上部に余白をたっぷり */
+    padding: 50px 20px; /* 上部の余白を増やす */
+}
+
+p {
+    text-align: left;  /* 左揃えを強制 */
+    margin-left: 20px; /* 左に余白を確保 */
+    font-size: 18px;   /* 読みやすく調整 */
 }
 
 button {
@@ -13,6 +18,7 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 20px;  /* ボタン上部に余白 */
 }
 
 button:hover {
