@@ -1,8 +1,8 @@
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
+    text-align: left; /* 左揃え */
     background-color: #f4f4f4;
-    padding: 20px;
+    padding: 50px 20px; /* 上部に余白をたっぷり */
 }
 
 button {
