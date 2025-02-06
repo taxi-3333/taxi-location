@@ -1,31 +1,46 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
 .container {
-    width: 60%; /* ボックスの幅を広げる */
     background: white;
     padding: 40px;
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    width: 50%; /* ボックスを中央配置 */
     text-align: left;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+p {
+    font-size: 24px; /* テキストサイズを大きく */
+    margin: 10px 0;
+}
+
 .button-container {
     display: flex;
-    justify-content: space-between; /* ボタンを横並びに */
-    width: 100%; /* 白いボックスの幅に合わせる */
+    justify-content: space-between;
+    width: 100%;
     margin-top: 20px;
 }
 
 button {
-    width: 45%; /* ボタン幅を白いボックス幅に合わせる */
     font-size: 24px;
-    padding: 15px 0;
+    padding: 15px 20px;
     background-color: #007BFF;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    width: 45%; /* ボタンの幅を調整 */
     text-align: center;
 }
 
