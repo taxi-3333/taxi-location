@@ -1,50 +1,52 @@
-@ -1,42 +1,16 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 70vh; /* 画面全体の高さを70%に調整（余白30%削減） */
+    justify-content: center; /* 中央配置 */
+    align-items: center; /* 垂直方向の中央配置 */
+    height: 100vh; /* 画面の高さをフルに使用 */
     margin: 0;
 }
 
 .container {
     background: white;
-    padding: 20px;  /* 余白を少し減らす */
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    width: 400px;  /* 固定幅 */
-    text-align: left; /* 出発・到着の左揃えを維持 */
+    width: 400px; /* 固定幅 */
+    text-align: left; /* テキストは左揃え */
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* 出発・到着のテキストは左揃え */
-    text-align: center;
-    margin-top: 5%;
+    align-items: flex-start; /* 出発地点・到着地点を左揃え */
 }
 
 p {
-    text-align: left;
-    margin-left: 20px;
+    text-align: left; /* テキスト左揃え */
+    margin-left: 10px;
     font-size: 18px;
-    margin: 8px 0;  /* 余白を少し減らす */
 }
 
 button {
-    align-self: center; /* ボタンだけ中央 */
     font-size: 18px;
     padding: 10px 20px;
     background-color: #007BFF;
     color: white;
     border: none;
     border-radius: 5px;
-a {
-    color: blue;
-    text-decoration: underline;
     cursor: pointer;
-    margin-top: 15px; /* 余白を少し減らす */
+    margin-top: 20px;
+    align-self: center; /* ボタンは中央配置 */
 }
 
 button:hover {
     background-color: #0056b3;
+}
+
+a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
