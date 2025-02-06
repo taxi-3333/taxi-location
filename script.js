@@ -1,5 +1,6 @@
 document.getElementById("randomBtn").addEventListener("click", function () {
-    fetch("https://sheets.googleapis.com/v4/spreadsheets/13wSYoIMz0024aPeg5Kv7ix2LqbnN_6emfrkBj6BQky4/values/Sheet1?key=AIzaSyA3pbjX3uPYHzSwiGUPBL8tT-A9vDimuVA")
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/YOUR_SPREADSHEET_ID/values/Sheet1!A1:Z1000?key=${API_KEY}`)
+
         .then(response => response.json())
         .then(data => {
             let rows = data.values;
