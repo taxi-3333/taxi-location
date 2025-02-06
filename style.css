@@ -4,13 +4,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* 画面全体を使う */
+    height: 70vh; /* 画面全体の高さを70%に調整（余白30%削減） */
     margin: 0;
 }
 
 .container {
     background: white;
-    padding: 30px;
+    padding: 20px;  /* 余白を少し減らす */
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     width: 400px;  /* 固定幅 */
@@ -22,7 +22,7 @@ body {
 
 p {
     font-size: 18px;
-    margin: 10px 0;
+    margin: 8px 0;  /* 余白を少し減らす */
 }
 
 button {
@@ -34,7 +34,7 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 15px; /* 余白を少し減らす */
 }
 
 button:hover {
