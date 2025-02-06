@@ -1,13 +1,15 @@
+/* ページ全体を中央揃え */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     display: flex;
-    justify-content: center; /* 中央配置 */
-    align-items: center; /* 垂直方向の中央配置 */
-    height: 100vh; /* 画面の高さをフルに使用 */
+    justify-content: center; /* 水平方向に中央揃え */
+    align-items: center; /* 垂直方向に中央揃え */
+    height: 100vh; /* 画面の高さを100%にして中央配置 */
     margin: 0;
 }
 
+/* コンテンツ全体（白いボックス）のスタイル */
 .container {
     background: white;
     padding: 20px;
@@ -17,15 +19,17 @@ body {
     text-align: left; /* テキストは左揃え */
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* 出発地点・到着地点を左揃え */
+    align-items: flex-start; /* 出発地点・到着地点のテキストを左揃え */
 }
 
+/* 出発地点・到着地点のテキスト */
 p {
     text-align: left; /* テキスト左揃え */
     margin-left: 10px;
     font-size: 18px;
 }
 
+/* ボタンのデザイン */
 button {
     font-size: 18px;
     padding: 10px 20px;
@@ -42,6 +46,7 @@ button:hover {
     background-color: #0056b3;
 }
 
+/* 出発地点・到着地点のリンク */
 a {
     color: #007BFF;
     text-decoration: none;
