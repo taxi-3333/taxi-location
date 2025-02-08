@@ -1,3 +1,6 @@
+console.log("VITE_SPREADSHEET_ID:", import.meta.env.VITE_SPREADSHEET_ID);
+console.log("VITE_API_KEY:", import.meta.env.VITE_API_KEY);
+
 // Netlify の環境変数を取得
 const API_KEY = import.meta.env.VITE_API_KEY;
 const SPREADSHEET_ID = import.meta.env.VITE_SPREADSHEET_ID;
