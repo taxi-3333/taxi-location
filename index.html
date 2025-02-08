@@ -4,18 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taxi Location</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f8f8;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .random {
+            background-color: #007bff;
+            color: white;
+        }
+        .go {
+            background-color: #0056b3;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <p>出発地点: <a id="departure" href="#" target="_blank"></a></p>
-        <p>到着地点: <a id="arrival" href="#" target="_blank"></a></p>
-        <div class="button-container">
-            <button id="randomBtn">ランダム</button>
-            <button id="goBtn">GO!</button>
-        </div>
-    </div>
-    <script src="config.js"></script>
-    <script src="script.js"></script>
+
+<div class="container">
+    <h2>出発地点:</h2>
+    <p id="departure"></p>
+    <h2>到着地点:</h2>
+    <p id="arrival"></p>
+
+    <button class="random" id="randomBtn">ランダム</button>
+    <button class="go" id="goBtn">GO!</button>
+</div>
+
+<!-- script.js を type="module" で読み込む -->
+<script type="module" src="script.js"></script>
+
 </body>
 </html>
