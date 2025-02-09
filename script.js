@@ -108,3 +108,7 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem) {
         window.open(mapUrl, "_blank");
     });
 }
+console.log("✅ Netlify 環境変数チェック");
+console.log("VITE_API_KEY:", import.meta.env.VITE_API_KEY);
+console.log("VITE_SPREADSHEET_ID:", import.meta.env.VITE_SPREADSHEET_ID);
+console.log("VITE_SHEET_NAME:", import.meta.env.VITE_SHEET_NAME);
