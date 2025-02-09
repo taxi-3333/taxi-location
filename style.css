@@ -12,7 +12,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     width: 112%; /* 80% × 1.4 = 112% */
-    max-width: 560px; /* 400px × 1.4 = 560px */
+    max-width: 560px; /* 400px × 1.4 = 560px *あ/
     padding: 28px;
     background-color: white;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
