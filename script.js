@@ -1,10 +1,12 @@
 // ✅ 環境変数を適切に取得
 const API_KEY = import.meta.env.VITE_API_KEY || window.API_KEY;
 const SPREADSHEET_ID = import.meta.env.VITE_SPREADSHEET_ID || window.SPREADSHEET_ID;
+const SHEET_NAME = import.meta.env.VITE_SHEET_NAME || "Sheet1"; // シート名を `.env` から取得
 
 // ✅ 環境変数の確認（デバッグ用）
 console.log("API_KEY:", API_KEY);
 console.log("SPREADSHEET_ID:", SPREADSHEET_ID);
+console.log("SHEET_NAME:", SHEET_NAME);
 
 if (!API_KEY || !SPREADSHEET_ID) {
     alert("設定エラー: APIキー またはスプレッドシートIDが設定されていません。");
@@ -12,20 +14,25 @@ if (!API_KEY || !SPREADSHEET_ID) {
 }
 
 // ✅ Google Sheets API のエンドポイントを作成
-const RANGE = encodeURIComponent("Sheet1"); // 取得する範囲を指定（エンコード）
+const RANGE = encodeURIComponent(SHEET_NAME); // シート名を環境変数から取得
 const URL = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(SPREADSHEET_ID)}/values/${RANGE}?key=${encodeURIComponent(API_KEY)}`;
 
 async function fetchData() {
     try {
-        console.log("Fetching data from:", URL); // デバッグ用ログ
+        console.log("Fetching data from:", URL);
         const response = await fetch(URL);
         if (!response.ok) {
             throw new Error(`HTTPエラー: ${response.status}`);
         }
         const data = await response.json();
-        console.log("取得したデータ:", data);
 
-        return data.values || [];
+        console.log("取得したデータ(JSON):", JSON.stringify(data, null, 2)); // JSON全体を可視化
+        if (!data.values) {
+            console.error("❌ `values` プロパティが存在しません。スプレッドシートのデータ構造を確認してください。");
+            return [];
+        }
+
+        return data.values;
     } catch (error) {
         console.error("データの取得中にエラーが発生しました:", error);
         alert(`データの取得に失敗しました。\nエラー内容: ${error.message}`);
@@ -33,7 +40,7 @@ async function fetchData() {
     }
 }
 
-// ✅ ボタン要素の取得とエラーハンドリング
+// ✅ ボタン要素の取得
 const randomBtn = document.getElementById("randomBtn");
 const goBtn = document.getElementById("goBtn");
 const departureElem = document.getElementById("departure");
@@ -100,23 +107,4 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem) {
         // 新しいタブでGoogleマップを開く
         window.open(mapUrl, "_blank");
     });
-}
-async function fetchData() {
-    try {
-        console.log("Fetching data from:", URL); // デバッグ用ログ
-        const response = await fetch(URL);
-        if (!response.ok) {
-            throw new Error(`HTTPエラー: ${response.status}`);
-        }
-        const data = await response.json();
-
-        console.log("取得したデータ:", JSON.stringify(data, null, 2)); // JSON全体を可視化
-        console.log("values プロパティ:", data.values); // valuesプロパティの確認
-
-        return data.values || [];
-    } catch (error) {
-        console.error("データの取得中にエラーが発生しました:", error);
-        alert(`データの取得に失敗しました。\nエラー内容: ${error.message}`);
-        return [];
-    }
 }
