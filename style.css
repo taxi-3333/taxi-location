@@ -42,4 +42,27 @@ body {
     font-size: 18px;
     font-weight: bold;
   }
+  /* ボタンを横並びにする */
+.button-group {
+    display: flex;
+    justify-content: center; /* 中央揃え */
+    gap: 10px; /* ボタンの間隔を調整 */
+    margin-top: 10px;
+  }
+  
+  /* ボタンの幅を統一 */
+  .button-group button {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .button-group button:hover {
+    background-color: #0056b3;
+  }
   
