@@ -1,60 +1,20 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taxi Location</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 50px;
-        }
-        .container {
-            max-width: 500px;
-            margin: auto;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #f8f8f8;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        button {
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 18px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .random {
-            background-color: #007bff;
-            color: white;
-        }
-        .go {
-            background-color: #0056b3;
-            color: white;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ランダム選択アプリ</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="container">
+    <h1>ランダム選択</h1>
+    <button id="randomBtn">ランダム</button>
+    <p>出発地: <span id="departure">---</span></p>
+    <p>到着地: <span id="arrival">---</span></p>
+    <button id="goBtn">GO</button>
+  </div>
 
-<div class="container">
-    <h2>出発地点:</h2>
-    <p id="departure"></p>
-    <h2>到着地点:</h2>
-    <p id="arrival"></p>
-
-    <button class="random" id="randomBtn">ランダム</button>
-    <button class="go" id="goBtn">GO!</button>
-</div>
-
-<!-- ✅ 一時的に環境変数を window にセット -->
-<script>
-    window.API_KEY = "AIzaSyD_RR3uEKwxPHu9b5Y35Lg_0g19Cx0A4lg";
-    window.SPREADSHEET_ID = "13wSYoIMz0024aPeg5Kv7ix2LqbnN_6emfrkBj";
-</script>
-
-<script type="module" src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
 </html>

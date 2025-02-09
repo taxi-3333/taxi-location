@@ -1,58 +1,45 @@
+/* 全体のスタイル */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    justify-content: center; /* 水平方向に中央揃え */
+    align-items: center; /* 垂直方向に中央揃え */
+    height: 100vh; /* ビューポートの高さいっぱいにする */
     margin: 0;
-}
-
-.container {
-    background: white;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-    width: 50%;
-    text-align: left; /* 出発地点と到着地点を左揃え */
-}
-
-p {
-    font-size: 24px;
-    font-weight: bold;
+    background-color: #f4f4f4; /* 背景色（必要に応じて変更） */
+  }
+  
+  /* 白いボックス（コンテンツ） */
+  .container {
+    width: 80%; /* ボックスの幅 */
+    max-width: 400px; /* 最大幅を指定 */
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  /* ボタンのスタイル */
+  button {
+    display: block;
+    width: 100%;
+    padding: 10px;
     margin: 10px 0;
-}
-
-a {
-    color: #4a148c;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-.button-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-button {
-    flex: 1;
-    padding: 15px;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 16px;
+    background-color: #007bff;
     color: white;
-    background-color: #007BFF;
     border: none;
-    border-radius: 8px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    margin: 0 5%;
-}
-
-button:hover {
+  }
+  
+  button:hover {
     background-color: #0056b3;
-}
+  }
+  
+  /* 出発地・到着地の表示 */
+  p {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
