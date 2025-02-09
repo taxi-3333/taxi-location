@@ -101,3 +101,22 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem) {
         window.open(mapUrl, "_blank");
     });
 }
+async function fetchData() {
+    try {
+        console.log("Fetching data from:", URL); // デバッグ用ログ
+        const response = await fetch(URL);
+        if (!response.ok) {
+            throw new Error(`HTTPエラー: ${response.status}`);
+        }
+        const data = await response.json();
+
+        console.log("取得したデータ:", JSON.stringify(data, null, 2)); // JSON全体を可視化
+        console.log("values プロパティ:", data.values); // valuesプロパティの確認
+
+        return data.values || [];
+    } catch (error) {
+        console.error("データの取得中にエラーが発生しました:", error);
+        alert(`データの取得に失敗しました。\nエラー内容: ${error.message}`);
+        return [];
+    }
+}
