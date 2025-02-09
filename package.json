@@ -1,0 +1,26 @@
+{
+  "name": "taxi-location",
+  "version": "1.0.0",
+  "description": "Google Sheets API を使った出発地点・到着地点のランダム表示",
+  "main": "script.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taxi-3333/taxi-location.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/taxi-3333/taxi-location/issues"
+  },
+  "homepage": "https://github.com/taxi-3333/taxi-location#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "vite": "^4.0.0"
+  }
+}
