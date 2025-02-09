@@ -1,17 +1,18 @@
-/* 全体のスタイル */
 body {
     display: flex;
-    justify-content: center; /* 水平方向に中央揃え */
-    align-items: center; /* 垂直方向に中央揃え */
-    height: 100vh; /* ビューポートの高さいっぱいにする */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     margin: 0;
-    background-color: #f4f4f4; /* 背景色（必要に応じて変更） */
+    background-color: #f4f4f4;
   }
   
-  /* 白いボックス（コンテンツ） */
   .container {
-    width: 80%; /* ボックスの幅 */
-    max-width: 400px; /* 最大幅を指定 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 80%;
+    max-width: 400px;
     padding: 20px;
     background-color: white;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -19,38 +20,13 @@ body {
     text-align: center;
   }
   
-  /* ボタンのスタイル */
-  button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* 出発地・到着地の表示 */
-  p {
-    font-size: 18px;
-    font-weight: bold;
-  }
-  /* ボタンを横並びにする */
-.button-group {
+  .button-group {
     display: flex;
-    justify-content: center; /* 中央揃え */
-    gap: 10px; /* ボタンの間隔を調整 */
-    margin-top: 10px;
+    justify-content: center;
+    gap: 10px;
+    margin-top: auto;
   }
   
-  /* ボタンの幅を統一 */
   .button-group button {
     flex: 1;
     padding: 10px;
@@ -64,5 +40,10 @@ body {
   
   .button-group button:hover {
     background-color: #0056b3;
+  }
+  
+  p {
+    font-size: 18px;
+    font-weight: bold;
   }
   
