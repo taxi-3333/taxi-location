@@ -12,36 +12,36 @@ body {
     flex-direction: column;
     justify-content: space-between;
     width: 112%; /* 80% × 1.4 = 112% */
-    max-width: 560px; /* 400px × 1.4 = 560px *あ/
-    padding: 28px;
+    max-width: 560px; /* 400px × 1.4 = 560px */
+    padding: 28px; /* 20px × 1.4 = 28px */
     background-color: white;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 14px;
-    text-align: left; /* ← 白ボックス内のテキストを左揃え */
+    border-radius: 14px; /* 10px × 1.4 = 14px */
+    text-align: left; /* 全体を左揃え */
 }
 
 p {
-    font-size: 25.2px;
+    font-size: 25.2px; /* 18px × 1.4 = 25.2px */
     font-weight: bold;
-    text-align: left; /* ← 各テキストを左揃え */
-    margin: 10px 0;
+    text-align: left; /* テキストを左揃え */
+    margin: 14px 0; /* 10px × 1.4 = 14px */
 }
 
 .button-group {
     display: flex;
     justify-content: center;
-    gap: 14px;
+    gap: 14px; /* 10px × 1.4 = 14px */
     margin-top: auto;
 }
 
 .button-group button {
     flex: 1;
-    padding: 14px;
-    font-size: 22.4px;
+    padding: 14px; /* 10px × 1.4 = 14px */
+    font-size: 22.4px; /* 16px × 1.4 = 22.4px */
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 7px;
+    border-radius: 7px; /* 5px × 1.4 = 7px */
     cursor: pointer;
 }
 
