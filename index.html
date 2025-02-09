@@ -48,7 +48,12 @@
     <button class="go" id="goBtn">GO!</button>
 </div>
 
-<!-- script.js を type="module" で読み込む -->
+<!-- ✅ 一時的に環境変数を window にセット -->
+<script>
+    window.API_KEY = "あなたの VITE_API_KEY の値";
+    window.SPREADSHEET_ID = "あなたの VITE_SPREADSHEET_ID の値";
+</script>
+
 <script type="module" src="script.js"></script>
 
 </body>
