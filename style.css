@@ -35,7 +35,7 @@ p {
 }
 
 .button-group button {
-    flex: 1;
+    flex: 1; /* 追加されたナビタイムボタンを含めて3等分 */
     padding: 14px; /* 10px × 1.4 = 14px */
     font-size: 22.4px; /* 16px × 1.4 = 22.4px */
     background-color: #007bff;
@@ -43,6 +43,7 @@ p {
     border: none;
     border-radius: 7px; /* 5px × 1.4 = 7px */
     cursor: pointer;
+    text-align: center;
 }
 
 .button-group button:hover {
