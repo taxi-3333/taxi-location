@@ -112,7 +112,7 @@ if (!randomBtn || !goBtn || !navitimeBtn || !departureElem || !arrivalElem) {
     // ✅ ナビタイムボタンの動作（iOSアプリを開く）
     navitimeBtn.addEventListener("click", () => {
         console.log("🔹 ナビタイムアプリを開きます...");
-        window.location.href = "carnavitime:"; // ✅ iOSアプリを起動
+        window.open("carnavitime://", "_self"); // ✅ Safariの警告を回避する
     });
 }
 
