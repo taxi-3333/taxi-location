@@ -43,10 +43,11 @@ async function fetchData() {
 // ✅ ボタン要素の取得
 const randomBtn = document.getElementById("randomBtn");
 const goBtn = document.getElementById("goBtn");
+const navitimeBtn = document.getElementById("navitimeBtn"); // ✅ 追加
 const departureElem = document.getElementById("departure");
 const arrivalElem = document.getElementById("arrival");
 
-if (!randomBtn || !goBtn || !departureElem || !arrivalElem) {
+if (!randomBtn || !goBtn || !navitimeBtn || !departureElem || !arrivalElem) {
     console.error("必要なDOM要素が見つかりません。HTMLの構成を確認してください。");
 } else {
     let selectedDeparture = "";
@@ -107,7 +108,14 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem) {
         // 新しいタブでGoogleマップを開く
         window.open(mapUrl, "_blank");
     });
+
+    // ✅ ナビタイムボタンの動作（iOSアプリを開く）
+    navitimeBtn.addEventListener("click", () => {
+        console.log("🔹 ナビタイムアプリを開きます...");
+        window.location.href = "carnavitime:"; // ✅ iOSアプリを起動
+    });
 }
+
 console.log("✅ Netlify 環境変数チェック");
 console.log("VITE_API_KEY:", import.meta.env.VITE_API_KEY);
 console.log("VITE_SPREADSHEET_ID:", import.meta.env.VITE_SPREADSHEET_ID);
