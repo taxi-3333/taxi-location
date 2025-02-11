@@ -14,7 +14,7 @@ if (!API_KEY || !SPREADSHEET_ID) {
 }
 
 // ✅ Google Sheets API のエンドポイントを作成
-const RANGE = encodeURIComponent(SHEET_NAME); // シート名を環境変数から取得
+const RANGE = encodeURIComponent(SHEET_NAME);
 const URL = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(SPREADSHEET_ID)}/values/${RANGE}?key=${encodeURIComponent(API_KEY)}`;
 
 async function fetchData() {
@@ -26,7 +26,7 @@ async function fetchData() {
         }
         const data = await response.json();
 
-        console.log("取得したデータ(JSON):", JSON.stringify(data, null, 2)); // JSON全体を可視化
+        console.log("取得したデータ(JSON):", JSON.stringify(data, null, 2));
         if (!data.values) {
             console.error("❌ `values` プロパティが存在しません。スプレッドシートのデータ構造を確認してください。");
             return [];
@@ -60,21 +60,30 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem) {
             return;
         }
 
-        const randomIndex1 = Math.floor(Math.random() * data.length);
-        let randomIndex2;
-        do {
-            randomIndex2 = Math.floor(Math.random() * data.length);
-        } while (randomIndex1 === randomIndex2);
+        // ✅ "高速道路" 以外を出発地候補にする
+        const departureCandidates = data.filter(row => row[3] !== "高速道路");
+        // ✅ 到着地はすべてのデータを候補にする
+        const arrivalCandidates = data;
 
-        // A列 (0) = 地名, B列 (1) = 緯度経度
-        selectedDeparture = data[randomIndex1][1] || "不明"; // 緯度経度
-        selectedArrival = data[randomIndex2][1] || "不明"; // 緯度経度
+        if (departureCandidates.length === 0 || arrivalCandidates.length === 0) {
+            alert("有効なデータがありません。");
+            return;
+        }
 
-        departureElem.innerText = data[randomIndex1][0] || "不明"; // 地名
-        arrivalElem.innerText = data[randomIndex2][0] || "不明"; // 地名
-
-        // ✅ 地名をクリックしたらGoogleマップで検索
+        // ✅ 出発地（"高速道路" を除外したものからランダム選択）
+        const randomDepartureIndex = Math.floor(Math.random() * departureCandidates.length);
+        selectedDeparture = departureCandidates[randomDepartureIndex][1] || "不明"; // 緯度経度
+        departureElem.innerText = departureCandidates[randomDepartureIndex][0] || "不明"; // 地名
         departureElem.setAttribute("data-location", selectedDeparture);
+
+        // ✅ 到着地（すべてのデータからランダム選択）
+        let randomArrivalIndex;
+        do {
+            randomArrivalIndex = Math.floor(Math.random() * arrivalCandidates.length);
+        } while (arrivalCandidates[randomArrivalIndex][1] === selectedDeparture); // 同じ地点にならないようにする
+
+        selectedArrival = arrivalCandidates[randomArrivalIndex][1] || "不明"; // 緯度経度
+        arrivalElem.innerText = arrivalCandidates[randomArrivalIndex][0] || "不明"; // 地名
         arrivalElem.setAttribute("data-location", selectedArrival);
     });
 
@@ -108,7 +117,7 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem) {
         window.open(mapUrl, "_blank");
     });
 }
-console.log("✅ Netlify 環境変数チェック");
+console.log("✅ 環境変数チェック");
 console.log("VITE_API_KEY:", import.meta.env.VITE_API_KEY);
 console.log("VITE_SPREADSHEET_ID:", import.meta.env.VITE_SPREADSHEET_ID);
 console.log("VITE_SHEET_NAME:", import.meta.env.VITE_SHEET_NAME);
