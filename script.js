@@ -52,6 +52,15 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem) {
     let selectedDeparture = "";
     let selectedArrival = "";
 
+    // ✅ クリップボードにコピーする関数（通知なし）
+    async function copyToClipboard(text) {
+        try {
+            await navigator.clipboard.writeText(text);
+        } catch (err) {
+            console.error("❌ クリップボードへのコピーに失敗しました:", err);
+        }
+    }
+
     // ✅ ランダムボタンの動作
     randomBtn.addEventListener("click", async () => {
         const data = await fetchData();
@@ -75,6 +84,9 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem) {
         selectedDeparture = departureCandidates[randomDepartureIndex][1] || "不明"; // 緯度経度
         departureElem.innerText = departureCandidates[randomDepartureIndex][0] || "不明"; // 地名
         departureElem.setAttribute("data-location", selectedDeparture);
+
+        // ✅ 位置情報をクリップボードにコピー（通知なし）
+        copyToClipboard(selectedDeparture);
 
         // ✅ 到着地（すべてのデータからランダム選択）
         let randomArrivalIndex;
