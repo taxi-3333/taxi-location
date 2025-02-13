@@ -36,15 +36,25 @@ const randomBtn = document.getElementById("randomBtn");
 const goBtn = document.getElementById("goBtn");
 const departureElem = document.getElementById("departure");
 const arrivalElem = document.getElementById("arrival");
+const departureLabel = document.querySelector("p:nth-child(1)"); // 「出発地: 」のラベル部分
 const arrivalLabel = document.querySelector("p:nth-child(2)"); // 「到着地: 」のラベル部分
 
-if (!randomBtn || !goBtn || !departureElem || !arrivalElem || !arrivalLabel) {
+if (!randomBtn || !goBtn || !departureElem || !arrivalElem || !departureLabel || !arrivalLabel) {
     console.error("必要なDOM要素が見つかりません。HTMLの構成を確認してください。");
 } else {
     let selectedDeparture = "";
     let selectedArrival = "";
 
-    // ✅ ランダムボタンの動作（※ クリップボードコピー処理を削除）
+    // ✅ クリップボードにコピーする関数（通知なし）
+    async function copyToClipboard(text) {
+        try {
+            await navigator.clipboard.writeText(text);
+        } catch (err) {
+            console.error("❌ クリップボードへのコピーに失敗しました:", err);
+        }
+    }
+
+    // ✅ ランダムボタンの動作
     randomBtn.addEventListener("click", async () => {
         const data = await fetchData();
         if (!data || data.length === 0) {
@@ -79,24 +89,25 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem || !arrivalLabel) {
         arrivalElem.setAttribute("data-location", selectedArrival);
     });
 
-    // ✅ 「出発地」のテキスト（ラベル部分）クリックで、カーナビタイムアプリを開く
-    departureElem.addEventListener("click", () => {
+    // ✅ 「出発地」のラベル（"出発地: "の部分）クリックで、出発地の位置情報をコピーし、カーナビタイムアプリを開く
+    departureLabel.addEventListener("click", () => {
         if (!selectedDeparture || selectedDeparture === "不明") {
             alert("出発地の位置情報が選択されていません。");
             return;
         }
-        
+        copyToClipboard(selectedDeparture);
+
         // ✅ カーナビタイムアプリを開く
         window.location.href = "carnavitime://";
     });
 
-    // ✅ 「到着地」のテキスト（ラベル部分）クリックで、到着地の位置情報をコピー
+    // ✅ 「到着地」のラベル（"到着地: "の部分）クリックで、到着地の位置情報をコピー
     arrivalLabel.addEventListener("click", () => {
         if (!selectedArrival || selectedArrival === "不明") {
             alert("到着地の位置情報が選択されていません。");
             return;
         }
-        copyToClipboard(selectedArrival);  // 🔹 クリップボードにコピー
+        copyToClipboard(selectedArrival);
     });
 
     // ✅ 地名クリックで Googleマップを開く
