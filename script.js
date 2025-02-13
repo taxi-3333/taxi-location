@@ -1,52 +1,11 @@
-// ✅ 環境変数を適切に取得
-const API_KEY = import.meta.env.VITE_API_KEY || window.API_KEY;
-const SPREADSHEET_ID = import.meta.env.VITE_SPREADSHEET_ID || window.SPREADSHEET_ID;
-const SHEET_NAME = import.meta.env.VITE_SHEET_NAME || "Sheet1"; // シート名を `.env` から取得
-
-// ✅ 環境変数の確認（デバッグ用）
-console.log("API_KEY:", API_KEY);
-console.log("SPREADSHEET_ID:", SPREADSHEET_ID);
-console.log("SHEET_NAME:", SHEET_NAME);
-
-if (!API_KEY || !SPREADSHEET_ID) {
-    alert("設定エラー: APIキー またはスプレッドシートIDが設定されていません。");
-    throw new Error("API_KEY または SPREADSHEET_ID が設定されていません。");
-}
-
-// ✅ Google Sheets API のエンドポイントを作成
-const RANGE = encodeURIComponent(SHEET_NAME);
-const URL = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(SPREADSHEET_ID)}/values/${RANGE}?key=${encodeURIComponent(API_KEY)}`;
-
-async function fetchData() {
-    try {
-        console.log("Fetching data from:", URL);
-        const response = await fetch(URL);
-        if (!response.ok) {
-            throw new Error(`HTTPエラー: ${response.status}`);
-        }
-        const data = await response.json();
-
-        console.log("取得したデータ(JSON):", JSON.stringify(data, null, 2));
-        if (!data.values) {
-            console.error("❌ `values` プロパティが存在しません。スプレッドシートのデータ構造を確認してください。");
-            return [];
-        }
-
-        return data.values;
-    } catch (error) {
-        console.error("データの取得中にエラーが発生しました:", error);
-        alert(`データの取得に失敗しました。\nエラー内容: ${error.message}`);
-        return [];
-    }
-}
-
 // ✅ ボタン要素の取得
 const randomBtn = document.getElementById("randomBtn");
 const goBtn = document.getElementById("goBtn");
 const departureElem = document.getElementById("departure");
 const arrivalElem = document.getElementById("arrival");
+const arrivalLabel = document.querySelector("p:nth-child(2)"); // 「到着地: 」のラベル部分
 
-if (!randomBtn || !goBtn || !departureElem || !arrivalElem) {
+if (!randomBtn || !goBtn || !departureElem || !arrivalElem || !arrivalLabel) {
     console.error("必要なDOM要素が見つかりません。HTMLの構成を確認してください。");
 } else {
     let selectedDeparture = "";
@@ -97,6 +56,15 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem) {
         selectedArrival = arrivalCandidates[randomArrivalIndex][1] || "不明"; // 緯度経度
         arrivalElem.innerText = arrivalCandidates[randomArrivalIndex][0] || "不明"; // 地名
         arrivalElem.setAttribute("data-location", selectedArrival);
+    });
+
+    // ✅ 「到着地」のテキスト（ラベル部分）クリックで、到着地の位置情報をコピー
+    arrivalLabel.addEventListener("click", () => {
+        if (!selectedArrival || selectedArrival === "不明") {
+            alert("到着地の位置情報が選択されていません。");
+            return;
+        }
+        copyToClipboard(selectedArrival);
     });
 
     // ✅ 地名クリックで Googleマップを開く
