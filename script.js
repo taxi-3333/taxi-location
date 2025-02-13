@@ -54,14 +54,6 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem || !departureLabel ||
         }
     }
 
-    // ✅ カーナビタイムを警告なしで開く関数
-    function openCarNavitime() {
-        const iframe = document.createElement("iframe");
-        iframe.style.display = "none";
-        iframe.src = "carnavitime://";
-        document.body.appendChild(iframe);
-    }
-
     // ✅ ランダムボタンの動作
     randomBtn.addEventListener("click", async () => {
         const data = await fetchData();
@@ -97,16 +89,18 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem || !departureLabel ||
         arrivalElem.setAttribute("data-location", selectedArrival);
     });
 
-    // ✅ 「出発地」のラベル（"出発地: "の部分）クリックで、出発地の位置情報をコピーし、カーナビタイムアプリを開く（警告なし）
+    // ✅ 「出発地」のラベル（"出発地: "の部分）クリックで、出発地の位置情報をコピーしカーナビタイムアプリを開く
     departureLabel.addEventListener("click", () => {
         if (!selectedDeparture || selectedDeparture === "不明") {
             alert("出発地の位置情報が選択されていません。");
             return;
         }
+
+        // ✅ クリップボードにコピー
         copyToClipboard(selectedDeparture);
 
-        // ✅ Safariの警告なしでカーナビタイムを開く
-        openCarNavitime();
+        // ✅ カーナビタイムアプリを開く
+        window.location.href = "carnavitime://";
     });
 
     // ✅ 「到着地」のラベル（"到着地: "の部分）クリックで、到着地の位置情報をコピー
