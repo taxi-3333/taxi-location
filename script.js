@@ -1,3 +1,36 @@
+// ✅ 環境変数を適切に取得
+const API_KEY = import.meta.env.VITE_API_KEY || window.API_KEY;
+const SPREADSHEET_ID = import.meta.env.VITE_SPREADSHEET_ID || window.SPREADSHEET_ID;
+const SHEET_NAME = import.meta.env.VITE_SHEET_NAME || "Sheet1"; // シート名を `.env` から取得
+
+// ✅ Google Sheets API のエンドポイントを作成
+const RANGE = encodeURIComponent(SHEET_NAME);
+const URL = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(SPREADSHEET_ID)}/values/${RANGE}?key=${encodeURIComponent(API_KEY)}`;
+
+// ✅ fetchData を先に定義
+async function fetchData() {
+    try {
+        console.log("Fetching data from:", URL);
+        const response = await fetch(URL);
+        if (!response.ok) {
+            throw new Error(`HTTPエラー: ${response.status}`);
+        }
+        const data = await response.json();
+
+        console.log("取得したデータ(JSON):", JSON.stringify(data, null, 2));
+        if (!data.values) {
+            console.error("❌ `values` プロパティが存在しません。スプレッドシートのデータ構造を確認してください。");
+            return [];
+        }
+
+        return data.values;
+    } catch (error) {
+        console.error("データの取得中にエラーが発生しました:", error);
+        alert(`データの取得に失敗しました。\nエラー内容: ${error.message}`);
+        return [];
+    }
+}
+
 // ✅ ボタン要素の取得
 const randomBtn = document.getElementById("randomBtn");
 const goBtn = document.getElementById("goBtn");
@@ -97,6 +130,7 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem || !arrivalLabel) {
         window.open(mapUrl, "_blank");
     });
 }
+
 console.log("✅ 環境変数チェック");
 console.log("VITE_API_KEY:", import.meta.env.VITE_API_KEY);
 console.log("VITE_SPREADSHEET_ID:", import.meta.env.VITE_SPREADSHEET_ID);
