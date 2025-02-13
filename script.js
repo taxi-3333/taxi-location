@@ -44,16 +44,7 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem || !arrivalLabel) {
     let selectedDeparture = "";
     let selectedArrival = "";
 
-    // ✅ クリップボードにコピーする関数（通知なし）
-    async function copyToClipboard(text) {
-        try {
-            await navigator.clipboard.writeText(text);
-        } catch (err) {
-            console.error("❌ クリップボードへのコピーに失敗しました:", err);
-        }
-    }
-
-    // ✅ ランダムボタンの動作
+    // ✅ ランダムボタンの動作（※ クリップボードコピー処理を削除）
     randomBtn.addEventListener("click", async () => {
         const data = await fetchData();
         if (!data || data.length === 0) {
@@ -77,9 +68,6 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem || !arrivalLabel) {
         departureElem.innerText = departureCandidates[randomDepartureIndex][0] || "不明"; // 地名
         departureElem.setAttribute("data-location", selectedDeparture);
 
-        // ✅ 位置情報をクリップボードにコピー（通知なし）
-        copyToClipboard(selectedDeparture);
-
         // ✅ 到着地（すべてのデータからランダム選択）
         let randomArrivalIndex;
         do {
@@ -91,18 +79,24 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem || !arrivalLabel) {
         arrivalElem.setAttribute("data-location", selectedArrival);
     });
 
-    // ✅ 「到着地」のテキスト（ラベル部分）クリックで、到着地の位置情報をコピー & カーナビタイムアプリを開く
+    // ✅ 「出発地」のテキスト（ラベル部分）クリックで、カーナビタイムアプリを開く
+    departureElem.addEventListener("click", () => {
+        if (!selectedDeparture || selectedDeparture === "不明") {
+            alert("出発地の位置情報が選択されていません。");
+            return;
+        }
+        
+        // ✅ カーナビタイムアプリを開く
+        window.location.href = "carnavitime://";
+    });
+
+    // ✅ 「到着地」のテキスト（ラベル部分）クリックで、到着地の位置情報をコピー
     arrivalLabel.addEventListener("click", () => {
         if (!selectedArrival || selectedArrival === "不明") {
             alert("到着地の位置情報が選択されていません。");
             return;
         }
-
-        // ✅ 位置情報をクリップボードにコピー（通知なし）
-        copyToClipboard(selectedArrival);
-
-        // ✅ カーナビタイムアプリを開く
-        window.location.href = "carnavitime://";
+        copyToClipboard(selectedArrival);  // 🔹 クリップボードにコピー
     });
 
     // ✅ 地名クリックで Googleマップを開く
@@ -118,7 +112,6 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem || !arrivalLabel) {
         window.open(mapUrl, "_blank");
     }
 
-    departureElem.addEventListener("click", openInGoogleMaps);
     arrivalElem.addEventListener("click", openInGoogleMaps);
 
     // ✅ GOボタンの動作（Googleマップで車のルート検索）
