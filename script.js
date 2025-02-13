@@ -91,13 +91,18 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem || !arrivalLabel) {
         arrivalElem.setAttribute("data-location", selectedArrival);
     });
 
-    // ✅ 「到着地」のテキスト（ラベル部分）クリックで、到着地の位置情報をコピー
+    // ✅ 「到着地」のテキスト（ラベル部分）クリックで、到着地の位置情報をコピー & カーナビタイムアプリを開く
     arrivalLabel.addEventListener("click", () => {
         if (!selectedArrival || selectedArrival === "不明") {
             alert("到着地の位置情報が選択されていません。");
             return;
         }
+
+        // ✅ 位置情報をクリップボードにコピー（通知なし）
         copyToClipboard(selectedArrival);
+
+        // ✅ カーナビタイムアプリを開く
+        window.location.href = "carnavitime://";
     });
 
     // ✅ 地名クリックで Googleマップを開く
