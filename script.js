@@ -153,3 +153,17 @@ console.log("✅ 環境変数チェック");
 console.log("VITE_API_KEY:", import.meta.env.VITE_API_KEY);
 console.log("VITE_SPREADSHEET_ID:", import.meta.env.VITE_SPREADSHEET_ID);
 console.log("VITE_SHEET_NAME:", import.meta.env.VITE_SHEET_NAME);
+
+// ✅ 「Google」ボタンの動作（復活！）
+googleBtn.addEventListener("click", () => {
+    if (!selectedDeparture || !selectedArrival || selectedDeparture === "不明" || selectedArrival === "不明") {
+        alert("出発地または到着地が選択されていません。");
+        return;
+    }
+
+    // ✅ Googleマップのルート検索URL（車でのナビ）
+    const mapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(selectedDeparture)}&destination=${encodeURIComponent(selectedArrival)}&travelmode=driving`;
+
+    // ✅ 新しいタブでGoogleマップを開く
+    window.open(mapUrl, "_blank");
+});
