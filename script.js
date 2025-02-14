@@ -33,17 +33,20 @@ async function fetchData() {
 
 // ✅ ボタン要素の取得
 const randomBtn = document.getElementById("randomBtn");
-const goBtn = document.getElementById("goBtn");
+const googleBtn = document.getElementById("goBtn"); // 🔹 IDはそのまま（変更不要）
 const departureElem = document.getElementById("departure");
 const arrivalElem = document.getElementById("arrival");
 const departureLabel = document.querySelector("p:nth-child(1)"); // 「出発地: 」のラベル部分
 const arrivalLabel = document.querySelector("p:nth-child(2)"); // 「到着地: 」のラベル部分
 
-if (!randomBtn || !goBtn || !departureElem || !arrivalElem || !departureLabel || !arrivalLabel) {
+if (!randomBtn || !googleBtn || !departureElem || !arrivalElem || !departureLabel || !arrivalLabel) {
     console.error("必要なDOM要素が見つかりません。HTMLの構成を確認してください。");
 } else {
     let selectedDeparture = "";
     let selectedArrival = "";
+
+    // ✅ 「GO」ボタンのテキストを「Google」に変更
+    googleBtn.innerText = "Google";
 
     // ✅ クリップボードにコピーする関数（通知なし）
     async function copyToClipboard(text) {
@@ -127,8 +130,8 @@ if (!randomBtn || !goBtn || !departureElem || !arrivalElem || !departureLabel ||
 
     arrivalElem.addEventListener("click", openInGoogleMaps);
 
-    // ✅ GOボタンの動作（Googleマップで車のルート検索）
-    goBtn.addEventListener("click", () => {
+    // ✅ 「Google」ボタンの動作（Googleマップで車のルート検索）
+    googleBtn.addEventListener("click", () => {
         if (!selectedDeparture || !selectedArrival || selectedDeparture === "不明" || selectedArrival === "不明") {
             alert("出発地または到着地が選択されていません。");
             return;
