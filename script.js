@@ -33,21 +33,19 @@ async function fetchData() {
 
 // ✅ ボタン要素の取得
 const randomBtn = document.getElementById("randomBtn");
-const swapBtn = document.getElementById("swapBtn"); // ✅ 新しく追加
-const googleBtn = document.getElementById("goBtn"); // 🔹 IDはそのまま（変更不要）
+const swapBtn = document.getElementById("swapBtn"); // ✅ 着発ボタン
+const googleBtn = document.getElementById("goBtn");
 const departureElem = document.getElementById("departure");
 const arrivalElem = document.getElementById("arrival");
 const departureLabel = document.querySelector("p:nth-child(1)"); // 「出発地: 」のラベル部分
 const arrivalLabel = document.querySelector("p:nth-child(2)"); // 「到着地: 」のラベル部分
 
-if (!randomBtn || !googleBtn || !departureElem || !arrivalElem || !departureLabel || !arrivalLabel) {
+if (!randomBtn || !swapBtn || !googleBtn || !departureElem || !arrivalElem || !departureLabel || !arrivalLabel) {
     console.error("必要なDOM要素が見つかりません。HTMLの構成を確認してください。");
 } else {
     let selectedDeparture = "";
     let selectedArrival = "";
-
-    // ✅ 「GO」ボタンのテキストを「Google」に変更
-    googleBtn.innerText = "Google";
+    let swapUsed = false; // ✅ 初回かどうかのフラグ
 
     // ✅ クリップボードにコピーする関数（通知なし）
     async function copyToClipboard(text) {
@@ -93,56 +91,42 @@ if (!randomBtn || !googleBtn || !departureElem || !arrivalElem || !departureLabe
         arrivalElem.setAttribute("data-location", selectedArrival);
     });
 
-    // ✅ 「出発地」のラベル（"出発地: "の部分）クリックで、出発地の位置情報をコピーしカーナビタイムアプリを開く
-    departureLabel.addEventListener("click", () => {
-        if (!selectedDeparture || selectedDeparture === "不明") {
-            alert("出発地の位置情報が選択されていません。");
+    // ✅ 「着発」ボタンの動作
+    swapBtn.addEventListener("click", async () => {
+        const data = await fetchData();
+        if (!data || data.length === 0) {
+            alert("スプレッドシートのデータが空です。");
             return;
         }
 
-        // ✅ クリップボードにコピー
-        copyToClipboard(selectedDeparture);
+        if (!swapUsed) {
+            // ✅ 初回はランダムボタンと同じ処理をする
+            swapUsed = true;
+            randomBtn.click();
+        } else {
+            // ✅ 2回目以降: 到着地を出発地に、到着地は新しくランダム選択
+            const arrivalText = arrivalElem.innerText;
+            const arrivalLocation = selectedArrival;
 
-        // ✅ カーナビタイムアプリを開く
-        window.location.href = "carnavitime://";
-    });
+            if (arrivalLocation === "不明") {
+                alert("到着地が設定されていません。");
+                return;
+            }
 
-    // ✅ 「到着地」のラベル（"到着地: "の部分）クリックで、到着地の位置情報をコピー
-    arrivalLabel.addEventListener("click", () => {
-        if (!selectedArrival || selectedArrival === "不明") {
-            alert("到着地の位置情報が選択されていません。");
-            return;
+            selectedDeparture = arrivalLocation;
+            departureElem.innerText = arrivalText;
+            departureElem.setAttribute("data-location", selectedDeparture);
+
+            // ✅ 新しい到着地をランダムに選択
+            let randomArrivalIndex;
+            do {
+                randomArrivalIndex = Math.floor(Math.random() * data.length);
+            } while (data[randomArrivalIndex][1] === selectedDeparture); // 同じ地点にならないようにする
+
+            selectedArrival = data[randomArrivalIndex][1] || "不明"; // 緯度経度
+            arrivalElem.innerText = data[randomArrivalIndex][0] || "不明"; // 地名
+            arrivalElem.setAttribute("data-location", selectedArrival);
         }
-        copyToClipboard(selectedArrival);
-    });
-
-    // ✅ 地名クリックで Googleマップを開く
-    function openInGoogleMaps(event) {
-        const location = event.target.getAttribute("data-location");
-        if (!location || location === "不明") {
-            alert("位置情報がありません。");
-            return;
-        }
-
-        // Googleマップで緯度経度を検索
-        const mapUrl = `https://www.google.com/maps?q=${encodeURIComponent(location)}`;
-        window.open(mapUrl, "_blank");
-    }
-
-    arrivalElem.addEventListener("click", openInGoogleMaps);
-
-    // ✅ 「Google」ボタンの動作（Googleマップで車のルート検索）
-    googleBtn.addEventListener("click", () => {
-        if (!selectedDeparture || !selectedArrival || selectedDeparture === "不明" || selectedArrival === "不明") {
-            alert("出発地または到着地が選択されていません。");
-            return;
-        }
-
-        // Googleマップのルート検索URL（車でのナビ）
-        const mapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(selectedDeparture)}&destination=${encodeURIComponent(selectedArrival)}&travelmode=driving`;
-
-        // 新しいタブでGoogleマップを開く
-        window.open(mapUrl, "_blank");
     });
 }
 
