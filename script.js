@@ -58,6 +58,23 @@ if (!randomBtn || !swapBtn || !googleBtn || !departureElem || !arrivalElem || !d
         }
     }
 
+    // ✅ Googleマップで開く関数
+    function openInGoogleMaps(event) {
+        const location = event.target.getAttribute("data-location");
+        if (!location || location === "不明") {
+            alert("位置情報がありません。");
+            return;
+        }
+
+        // ✅ Googleマップで緯度経度を検索
+        const mapUrl = `https://www.google.com/maps?q=${encodeURIComponent(location)}`;
+        window.open(mapUrl, "_blank");
+    }
+
+    // ✅ 出発地・到着地クリックで Googleマップを開く（修正点）
+    departureElem.addEventListener("click", openInGoogleMaps);
+    arrivalElem.addEventListener("click", openInGoogleMaps);
+
     // ✅ ランダムボタンの動作
     randomBtn.addEventListener("click", async () => {
         const data = await fetchData();
@@ -91,44 +108,6 @@ if (!randomBtn || !swapBtn || !googleBtn || !departureElem || !arrivalElem || !d
         selectedArrival = arrivalCandidates[randomArrivalIndex][1] || "不明"; // 緯度経度
         arrivalElem.innerText = arrivalCandidates[randomArrivalIndex][0] || "不明"; // 地名
         arrivalElem.setAttribute("data-location", selectedArrival);
-    });
-
-    // ✅ 「着発」ボタンの動作
-    swapBtn.addEventListener("click", async () => {
-        const data = await fetchData();
-        if (!data || data.length === 0) {
-            alert("スプレッドシートのデータが空です。");
-            return;
-        }
-
-        if (!swapUsed) {
-            // ✅ 初回はランダムボタンと同じ処理をする
-            swapUsed = true;
-            randomBtn.click();
-        } else {
-            // ✅ 2回目以降: 到着地を出発地に、到着地は新しくランダム選択
-            const arrivalText = arrivalElem.innerText;
-            const arrivalLocation = selectedArrival;
-
-            if (arrivalLocation === "不明") {
-                alert("到着地が設定されていません。");
-                return;
-            }
-
-            selectedDeparture = arrivalLocation;
-            departureElem.innerText = arrivalText;
-            departureElem.setAttribute("data-location", selectedDeparture);
-
-            // ✅ 新しい到着地をランダムに選択
-            let randomArrivalIndex;
-            do {
-                randomArrivalIndex = Math.floor(Math.random() * data.length);
-            } while (data[randomArrivalIndex][1] === selectedDeparture); // 同じ地点にならないようにする
-
-            selectedArrival = data[randomArrivalIndex][1] || "不明"; // 緯度経度
-            arrivalElem.innerText = data[randomArrivalIndex][0] || "不明"; // 地名
-            arrivalElem.setAttribute("data-location", selectedArrival);
-        }
     });
 
     // ✅ 「Google」ボタンの動作（Googleマップでルート検索）
