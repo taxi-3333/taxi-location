@@ -33,6 +33,7 @@ async function fetchData() {
 
 // ✅ ボタン要素の取得
 const randomBtn = document.getElementById("randomBtn");
+const swapBtn = document.getElementById("swapBtn"); // ✅ 新しく追加
 const googleBtn = document.getElementById("goBtn"); // 🔹 IDはそのまま（変更不要）
 const departureElem = document.getElementById("departure");
 const arrivalElem = document.getElementById("arrival");
