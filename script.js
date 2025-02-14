@@ -71,7 +71,7 @@ if (!randomBtn || !swapBtn || !googleBtn || !departureElem || !arrivalElem || !d
         window.open(mapUrl, "_blank");
     }
 
-    // ✅ 出発地・到着地クリックで Googleマップを開く（修正点）
+    // ✅ 出発地・到着地クリックで Googleマップを開く
     departureElem.addEventListener("click", openInGoogleMaps);
     arrivalElem.addEventListener("click", openInGoogleMaps);
 
@@ -110,18 +110,42 @@ if (!randomBtn || !swapBtn || !googleBtn || !departureElem || !arrivalElem || !d
         arrivalElem.setAttribute("data-location", selectedArrival);
     });
 
-    // ✅ 「Google」ボタンの動作（Googleマップでルート検索）
-    googleBtn.addEventListener("click", () => {
-        if (!selectedDeparture || !selectedArrival || selectedDeparture === "不明" || selectedArrival === "不明") {
-            alert("出発地または到着地が選択されていません。");
+    // ✅ 「着発」ボタンの動作（復活！）
+    swapBtn.addEventListener("click", async () => {
+        const data = await fetchData();
+        if (!data || data.length === 0) {
+            alert("スプレッドシートのデータが空です。");
             return;
         }
 
-        // ✅ Googleマップのルート検索URL（車でのナビ）
-        const mapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(selectedDeparture)}&destination=${encodeURIComponent(selectedArrival)}&travelmode=driving`;
+        if (!swapUsed) {
+            // ✅ 初回はランダムボタンと同じ処理をする
+            swapUsed = true;
+            randomBtn.click();
+        } else {
+            // ✅ 2回目以降: 到着地を出発地に、到着地は新しくランダム選択
+            const arrivalText = arrivalElem.innerText;
+            const arrivalLocation = selectedArrival;
 
-        // ✅ 新しいタブでGoogleマップを開く
-        window.open(mapUrl, "_blank");
+            if (arrivalLocation === "不明") {
+                alert("到着地が設定されていません。");
+                return;
+            }
+
+            selectedDeparture = arrivalLocation;
+            departureElem.innerText = arrivalText;
+            departureElem.setAttribute("data-location", selectedDeparture);
+
+            // ✅ 新しい到着地をランダムに選択
+            let randomArrivalIndex;
+            do {
+                randomArrivalIndex = Math.floor(Math.random() * data.length);
+            } while (data[randomArrivalIndex][1] === selectedDeparture); // 同じ地点にならないようにする
+
+            selectedArrival = data[randomArrivalIndex][1] || "不明"; // 緯度経度
+            arrivalElem.innerText = data[randomArrivalIndex][0] || "不明"; // 地名
+            arrivalElem.setAttribute("data-location", selectedArrival);
+        }
     });
 }
 
