@@ -7,6 +7,10 @@ const SHEET_NAME = import.meta.env.VITE_SHEET_NAME || "Sheet1"; // シート名�
 const RANGE = encodeURIComponent(SHEET_NAME);
 const URL = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(SPREADSHEET_ID)}/values/${RANGE}?key=${encodeURIComponent(API_KEY)}`;
 
+// ✅ グローバルスコープで出発地と到着地の変数を定義
+let selectedDeparture = "";
+let selectedArrival = "";
+
 // ✅ fetchData を先に定義
 async function fetchData() {
     try {
@@ -43,8 +47,6 @@ const arrivalLabel = document.querySelector("p:nth-child(2)"); // 「到着地: 
 if (!randomBtn || !swapBtn || !googleBtn || !departureElem || !arrivalElem || !departureLabel || !arrivalLabel) {
     console.error("必要なDOM要素が見つかりません。HTMLの構成を確認してください。");
 } else {
-    let selectedDeparture = "";
-    let selectedArrival = "";
     let swapUsed = false; // ✅ 初回かどうかのフラグ
 
     // ✅ クリップボードにコピーする関数（通知なし）
@@ -128,23 +130,23 @@ if (!randomBtn || !swapBtn || !googleBtn || !departureElem || !arrivalElem || !d
             arrivalElem.setAttribute("data-location", selectedArrival);
         }
     });
+
+    // ✅ 「Google」ボタンの動作（Googleマップでルート検索）
+    googleBtn.addEventListener("click", () => {
+        if (!selectedDeparture || !selectedArrival || selectedDeparture === "不明" || selectedArrival === "不明") {
+            alert("出発地または到着地が選択されていません。");
+            return;
+        }
+
+        // ✅ Googleマップのルート検索URL（車でのナビ）
+        const mapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(selectedDeparture)}&destination=${encodeURIComponent(selectedArrival)}&travelmode=driving`;
+
+        // ✅ 新しいタブでGoogleマップを開く
+        window.open(mapUrl, "_blank");
+    });
 }
 
 console.log("✅ 環境変数チェック");
 console.log("VITE_API_KEY:", import.meta.env.VITE_API_KEY);
 console.log("VITE_SPREADSHEET_ID:", import.meta.env.VITE_SPREADSHEET_ID);
 console.log("VITE_SHEET_NAME:", import.meta.env.VITE_SHEET_NAME);
-
-// ✅ Googleボタンの動作（Googleマップでルート検索）
-googleBtn.addEventListener("click", () => {
-    if (!selectedDeparture || !selectedArrival || selectedDeparture === "不明" || selectedArrival === "不明") {
-        alert("出発地または到着地が選択されていません。");
-        return;
-    }
-
-    // ✅ Googleマップのルート検索URL（車でのナビ）
-    const mapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(selectedDeparture)}&destination=${encodeURIComponent(selectedArrival)}&travelmode=driving`;
-
-    // ✅ 新しいタブでGoogleマップを開く
-    window.open(mapUrl, "_blank");
-});
