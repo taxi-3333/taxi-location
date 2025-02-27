@@ -3,6 +3,11 @@ const API_KEY = import.meta.env.VITE_API_KEY || window.API_KEY;
 const SPREADSHEET_ID = import.meta.env.VITE_SPREADSHEET_ID || window.SPREADSHEET_ID;
 const SHEET_NAME = import.meta.env.VITE_SHEET_NAME || "Sheet1"; // シート名を `.env` から取得
 
+// ✅ トグルスイッチの取得
+const departureToggle = document.getElementById("departureToggle");
+const arrivalToggle = document.getElementById("arrivalToggle");
+
+
 // ✅ Google Sheets API のエンドポイントを作成
 const RANGE = encodeURIComponent(SHEET_NAME);
 const URL = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(SPREADSHEET_ID)}/values/${RANGE}?key=${encodeURIComponent(API_KEY)}`;
@@ -70,7 +75,7 @@ if (!randomBtn || !swapBtn || !googleBtn || !departureElem || !arrivalElem || !d
         const mapUrl = `https://www.google.com/maps?q=${encodeURIComponent(location)}`;
         window.open(mapUrl, "_blank");
     }
-
+}
     // ✅ 出発地・到着地クリックで Googleマップを開く
     departureElem.addEventListener("click", openInGoogleMaps);
     arrivalElem.addEventListener("click", openInGoogleMaps);
@@ -166,9 +171,6 @@ googleBtn.addEventListener("click", () => {
     // ✅ 新しいタブでGoogleマップを開く
     window.open(mapUrl, "_blank");
 });
-// ✅ トグルスイッチの取得
-const departureToggle = document.getElementById("departureToggle");
-const arrivalToggle = document.getElementById("arrivalToggle");
 
 // ✅ トグルの排他制御（両方ONにできない仕様）
 function toggleExclusiveSwitch(selectedToggle, otherToggle) {
