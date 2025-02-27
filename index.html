@@ -10,13 +10,19 @@
   <div class="container">
     <p>
       <label class="toggle-container">
-        <input type="checkbox" id="toggleSwitch">
+        <input type="checkbox" id="departureToggle">
         <span class="toggle-slider"></span>
       </label>
       出発地: <span id="departure">---</span>
     </p>
-    <p>目的地: <span id="arrival">---</span></p>
-    <div class="button-group">
+    
+    <p>
+      <label class="toggle-container">
+        <input type="checkbox" id="arrivalToggle">
+        <span class="toggle-slider"></span>
+      </label>
+      目的地: <span id="arrival">---</span>
+    </p>    <div class="button-group">
       <button id="randomBtn">ランダム</button>
       <button id="swapBtn">着発</button> <!-- ✅ 新しく追加 -->
       <button id="goBtn">Google</button>

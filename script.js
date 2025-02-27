@@ -168,14 +168,25 @@ googleBtn.addEventListener("click", () => {
     window.open(mapUrl, "_blank");
 });
 // ✅ トグルスイッチの取得
-const toggleSwitch = document.getElementById("toggleSwitch");
+const departureToggle = document.getElementById("departureToggle");
+const arrivalToggle = document.getElementById("arrivalToggle");
 
-if (toggleSwitch) {
-    toggleSwitch.addEventListener("change", () => {
-        if (toggleSwitch.checked) {
-            console.log("✅ スイッチON");
+if (departureToggle) {
+    departureToggle.addEventListener("change", () => {
+        if (departureToggle.checked) {
+            console.log("✅ 出発地スイッチ ON");
         } else {
-            console.log("❌ スイッチOFF");
+            console.log("❌ 出発地スイッチ OFF");
+        }
+    });
+}
+
+if (arrivalToggle) {
+    arrivalToggle.addEventListener("change", () => {
+        if (arrivalToggle.checked) {
+            console.log("✅ 目的地スイッチ ON");
+        } else {
+            console.log("❌ 目的地スイッチ OFF");
         }
     });
 }
