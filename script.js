@@ -11,7 +11,7 @@ const URL = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(
 let selectedDeparture = "";
 let selectedArrival = "";// ✅ "到着地" → "目的地" に変更
 
-// ✅ fetchData を先に定義
+// ✅ fetchData を先に定義k
 async function fetchData() {
     try {
         console.log("Fetching data from:", URL);
