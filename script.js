@@ -167,3 +167,15 @@ googleBtn.addEventListener("click", () => {
     // ✅ 新しいタブでGoogleマップを開く
     window.open(mapUrl, "_blank");
 });
+// ✅ トグルスイッチの取得
+const toggleSwitch = document.getElementById("toggleSwitch");
+
+if (toggleSwitch) {
+    toggleSwitch.addEventListener("change", () => {
+        if (toggleSwitch.checked) {
+            console.log("✅ スイッチON");
+        } else {
+            console.log("❌ スイッチOFF");
+        }
+    });
+}

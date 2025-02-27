@@ -49,3 +49,51 @@ p {
 .button-group button:hover {
     background-color: #0056b3;
 }
+/* ✅ トグルスイッチのコンテナ */
+.toggle-container {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    width: 42px; /* スイッチの幅 */
+    height: 24px; /* スイッチの高さ */
+    margin-right: 10px; /* 「出発地」との間隔 */
+}
+
+/* ✅ チェックボックスの非表示 */
+.toggle-container input {
+    display: none;
+}
+
+/* ✅ スライダー（スイッチの見た目） */
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    background-color: #ccc;
+    border-radius: 12px;
+    transition: 0.4s;
+}
+
+/* ✅ スライダーの内側（丸いボタン） */
+.toggle-slider::before {
+    content: "";
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+/* ✅ スイッチがONになったときの色（ランダムボタンと同じ色） */
+.toggle-container input:checked + .toggle-slider {
+    background-color: #007bff;
+}
+
+/* ✅ スイッチがONになったときのスライダーの動き */
+.toggle-container input:checked + .toggle-slider::before {
+    transform: translateX(18px);
+}
