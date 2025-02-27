@@ -9,7 +9,7 @@ const URL = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(
 
 // ✅ グローバルスコープで出発地と到着地の変数を定義
 let selectedDeparture = "";
-let selectedArrival = "";
+let selectedArrival = "";// ✅ "到着地" → "目的地" に変更
 
 // ✅ fetchData を先に定義
 async function fetchData() {
@@ -40,9 +40,9 @@ const randomBtn = document.getElementById("randomBtn");
 const swapBtn = document.getElementById("swapBtn"); // ✅ 着発ボタン
 const googleBtn = document.getElementById("goBtn");
 const departureElem = document.getElementById("departure");
-const arrivalElem = document.getElementById("arrival");
+const arrivalElem = document.getElementById("arrival");// ✅ 目的地
 const departureLabel = document.querySelector("p:nth-child(1)"); // 「出発地: 」のラベル部分
-const arrivalLabel = document.querySelector("p:nth-child(2)"); // 「到着地: 」のラベル部分
+const arrivalLabel = document.querySelector("p:nth-child(2)"); // 「目的地: 」のラベル部分に変更
 
 if (!randomBtn || !swapBtn || !googleBtn || !departureElem || !arrivalElem || !departureLabel || !arrivalLabel) {
     console.error("必要なDOM要素が見つかりません。HTMLの構成を確認してください。");
@@ -85,7 +85,7 @@ if (!randomBtn || !swapBtn || !googleBtn || !departureElem || !arrivalElem || !d
 
         // ✅ "高速道路" 以外を出発地候補にする
         const departureCandidates = data.filter(row => row[3] !== "高速道路");
-        // ✅ 到着地はすべてのデータを候補にする
+        // ✅ 目的地はすべてのデータを候補にする
         const arrivalCandidates = data;
 
         if (departureCandidates.length === 0 || arrivalCandidates.length === 0) {
@@ -107,7 +107,7 @@ if (!randomBtn || !swapBtn || !googleBtn || !departureElem || !arrivalElem || !d
 
         selectedArrival = arrivalCandidates[randomArrivalIndex][1] || "不明"; // 緯度経度
         arrivalElem.innerText = arrivalCandidates[randomArrivalIndex][0] || "不明"; // 地名
-        arrivalElem.setAttribute("data-location", selectedArrival);
+        arrivalElem.setAttribute("data-location", selectedArrival);// ✅ 目的地
     });
 
     // ✅ 「着発」ボタンの動作（復活！）
@@ -157,7 +157,7 @@ console.log("VITE_SHEET_NAME:", import.meta.env.VITE_SHEET_NAME);
 // ✅ 「Google」ボタンの動作（復活！）
 googleBtn.addEventListener("click", () => {
     if (!selectedDeparture || !selectedArrival || selectedDeparture === "不明" || selectedArrival === "不明") {
-        alert("出発地または到着地が選択されていません。");
+        alert("出発地または目的地が選択されていません。");
         return;
     }
 
