@@ -75,31 +75,34 @@ if (!randomBtn || !swapBtn || !googleBtn || !departureElem || !arrivalElem || !d
     departureElem.addEventListener("click", openInGoogleMaps);
     arrivalElem.addEventListener("click", openInGoogleMaps);
 
-    // ✅ ランダムボタンの動作
-    randomBtn.addEventListener("click", async () => {
-        const data = await fetchData();
-        if (!data || data.length === 0) {
-            alert("スプレッドシートのデータが空です。");
-            return;
-        }
+    // ✅ 修正後のランダムボタンの処理
+randomBtn.addEventListener("click", async () => {
+    const data = await fetchData();
+    if (!data || data.length === 0) {
+        alert("スプレッドシートのデータが空です。");
+        return;
+    }
 
-        // ✅ "高速道路" 以外を出発地候補にする
-        const departureCandidates = data.filter(row => row[3] !== "高速道路");
-        // ✅ 目的地はすべてのデータを候補にする
-        const arrivalCandidates = data;
+    // ✅ "高速道路" 以外を出発地候補にする
+    const departureCandidates = data.filter(row => row[3] !== "高速道路");
+    // ✅ 目的地はすべてのデータを候補にする
+    const arrivalCandidates = data;
 
-        if (departureCandidates.length === 0 || arrivalCandidates.length === 0) {
-            alert("有効なデータがありません。");
-            return;
-        }
+    if (departureCandidates.length === 0 || arrivalCandidates.length === 0) {
+        alert("有効なデータがありません。");
+        return;
+    }
 
-        // ✅ 出発地（"高速道路" を除外したものからランダム選択）
+    // ✅ 出発地の選択（トグルがOFFならランダム選択）
+    if (!departureToggle.checked) {
         const randomDepartureIndex = Math.floor(Math.random() * departureCandidates.length);
         selectedDeparture = departureCandidates[randomDepartureIndex][1] || "不明"; // 緯度経度
         departureElem.innerText = departureCandidates[randomDepartureIndex][0] || "不明"; // 地名
         departureElem.setAttribute("data-location", selectedDeparture);
+    }
 
-        // ✅ 到着地（すべてのデータからランダム選択）
+    // ✅ 目的地の選択（トグルがOFFならランダム選択）
+    if (!arrivalToggle.checked) {
         let randomArrivalIndex;
         do {
             randomArrivalIndex = Math.floor(Math.random() * arrivalCandidates.length);
@@ -107,36 +110,32 @@ if (!randomBtn || !swapBtn || !googleBtn || !departureElem || !arrivalElem || !d
 
         selectedArrival = arrivalCandidates[randomArrivalIndex][1] || "不明"; // 緯度経度
         arrivalElem.innerText = arrivalCandidates[randomArrivalIndex][0] || "不明"; // 地名
-        arrivalElem.setAttribute("data-location", selectedArrival);// ✅ 目的地
-    });
+        arrivalElem.setAttribute("data-location", selectedArrival);
+    }
+});
 
-    // ✅ 「着発」ボタンの動作（復活！）
-    swapBtn.addEventListener("click", async () => {
-        const data = await fetchData();
-        if (!data || data.length === 0) {
-            alert("スプレッドシートのデータが空です。");
-            return;
+// ✅ 「着発」ボタンの動作（トグル対応）
+swapBtn.addEventListener("click", async () => {
+    const data = await fetchData();
+    if (!data || data.length === 0) {
+        alert("スプレッドシートのデータが空です。");
+        return;
+    }
+
+    if (!swapUsed) {
+        // ✅ 初回はランダムボタンと同じ処理をする
+        swapUsed = true;
+        randomBtn.click();
+    } else {
+        // ✅ 目的地を出発地に変更（トグルONなら固定）
+        if (!departureToggle.checked) {
+            selectedDeparture = selectedArrival;
+            departureElem.innerText = arrivalElem.innerText;
+            departureElem.setAttribute("data-location", selectedDeparture);
         }
 
-        if (!swapUsed) {
-            // ✅ 初回はランダムボタンと同じ処理をする
-            swapUsed = true;
-            randomBtn.click();
-        } else {
-            // ✅ 2回目以降: 到着地を出発地に、到着地は新しくランダム選択
-            const arrivalText = arrivalElem.innerText;
-            const arrivalLocation = selectedArrival;
-
-            if (arrivalLocation === "不明") {
-                alert("到着地が設定されていません。");
-                return;
-            }
-
-            selectedDeparture = arrivalLocation;
-            departureElem.innerText = arrivalText;
-            departureElem.setAttribute("data-location", selectedDeparture);
-
-            // ✅ 新しい到着地をランダムに選択
+        // ✅ 新しい目的地をランダムに選択（トグルONなら固定）
+        if (!arrivalToggle.checked) {
             let randomArrivalIndex;
             do {
                 randomArrivalIndex = Math.floor(Math.random() * data.length);
@@ -146,8 +145,8 @@ if (!randomBtn || !swapBtn || !googleBtn || !departureElem || !arrivalElem || !d
             arrivalElem.innerText = data[randomArrivalIndex][0] || "不明"; // 地名
             arrivalElem.setAttribute("data-location", selectedArrival);
         }
-    });
-}
+    }
+});
 
 console.log("✅ 環境変数チェック");
 console.log("VITE_API_KEY:", import.meta.env.VITE_API_KEY);
@@ -171,22 +170,17 @@ googleBtn.addEventListener("click", () => {
 const departureToggle = document.getElementById("departureToggle");
 const arrivalToggle = document.getElementById("arrivalToggle");
 
-if (departureToggle) {
-    departureToggle.addEventListener("change", () => {
-        if (departureToggle.checked) {
-            console.log("✅ 出発地スイッチ ON");
-        } else {
-            console.log("❌ 出発地スイッチ OFF");
-        }
-    });
+// ✅ トグルの排他制御（両方ONにできない仕様）
+function toggleExclusiveSwitch(selectedToggle, otherToggle) {
+    if (selectedToggle.checked) {
+        otherToggle.checked = false; // もう一方をOFFにする
+    }
 }
 
-if (arrivalToggle) {
-    arrivalToggle.addEventListener("change", () => {
-        if (arrivalToggle.checked) {
-            console.log("✅ 目的地スイッチ ON");
-        } else {
-            console.log("❌ 目的地スイッチ OFF");
-        }
-    });
-}
+departureToggle.addEventListener("change", () => {
+    toggleExclusiveSwitch(departureToggle, arrivalToggle);
+});
+
+arrivalToggle.addEventListener("change", () => {
+    toggleExclusiveSwitch(arrivalToggle, departureToggle);
+});
